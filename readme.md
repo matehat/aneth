@@ -6,8 +6,12 @@ that script.
 ## Usage
 
 ```bash
-$ aneth <hostname>
+$ aneth start <hostname> [--service <serviceName>]
+$ aneth stop
 ```
+
+You can provide a `serviceName` parameter that will be used to listen for advertisements. 
+Otherwise, `org.aneth.hosts` will be used.
 
 ## Installation
 
