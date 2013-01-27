@@ -13,6 +13,11 @@ class Server
     @ad = mdns.createAdvertisement mdns.tcp(@serviceName), @port, {name: @hostname}
     @ad.start()
     
+    process.on 'SIGINT', =>
+      @members = {}
+      @updateHosts()
+      process.exit()
+    
     if watch
       @browser = mdns.createBrowser mdns.tcp @serviceName
       @browser.on 'serviceUp',    @addService
