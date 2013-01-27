@@ -7,16 +7,17 @@ delimiters =
   end:   '# --- Aneth end\n'
 
 class Server
-  constructor: (@hostname, @serviceName, @port) ->
+  constructor: (@hostname, @serviceName, watch, @port) ->
     @members = {}
     
     @ad = mdns.createAdvertisement mdns.tcp(@serviceName), @port, {name: @hostname}
     @ad.start()
     
-    @browser = mdns.createBrowser mdns.tcp @serviceName
-    @browser.on 'serviceUp', @addService
-    @browser.on 'serviceDown', @removeService
-    @browser.start()
+    if watch
+      @browser = mdns.createBrowser mdns.tcp @serviceName
+      @browser.on 'serviceUp',    @addService
+      @browser.on 'serviceDown',  @removeService
+      @browser.start()
   
   addService: ({name, addresses, networkInterface}) =>
     if networkInterface[...2] is 'en' or networkInterface[...3] is 'eth'

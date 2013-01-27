@@ -3,18 +3,17 @@ on the network and receive such advertisements. It also modifies `/etc/hosts` ac
 so that machines are automatically accessible by the hostname provided from any member running
 that script.
 
-**You will need to run the script with `sudo` privileges.** If this isn't appropriate for your 
-needs, this utility is probably not for you.
-
 ## Usage
 
 ```bash
-$ aneth start <hostname> [--service <serviceName>]
-$ aneth stop
+$ aneth start <hostname> [--service <serviceName>] [--watch]
 ```
 
 You can provide a `serviceName` parameter that will be used to listen for advertisements. 
-Otherwise, `org.aneth.hosts` will be used.
+Otherwise, `aneth-hosts` will be used.
+
+The `--watch` options tells Aneth to watch for advertised hosts on the network and modify
+`/etc/hosts` accordingly (you'll need to execute that with `sudo` for it to work).
 
 ## Installation
 
