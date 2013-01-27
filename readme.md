@@ -3,6 +3,9 @@ on the network and receive such advertisements. It also modifies `/etc/hosts` ac
 so that machines are automatically accessible by the hostname provided from any member running
 that script.
 
+**You will need to run the script with `sudo` privileges.** If this isn't appropriate for your 
+needs, this utility is probably not for you.
+
 ## Usage
 
 ```bash
