@@ -32,8 +32,10 @@ class Server
     
     @updateHosts()
   
-  removeService: (service) =>
-    console.log service
+  removeService: ({name}) =>
+    if name of @members
+      delete @members[name]
+      @updateHosts()
   
   updateHosts: ->
     file = fs.readFileSync '/etc/hosts', 'ascii'
