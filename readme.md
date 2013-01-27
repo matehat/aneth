@@ -18,8 +18,10 @@ Otherwise, `org.aneth.hosts` will be used.
 
 ## Installation
 
+You will need to install globally if you want the `aneth` executable accessible anywhere.
+
 ```bash
-$ npm install aneth
+$ npm install -g aneth
 ```
 
 On Mac, it will just work. On linux machine, you need to install a [Bonjour
