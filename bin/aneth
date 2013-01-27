@@ -1,0 +1,3 @@
+#!/usr/bin/env node
+p = require('path');
+require('../lib/command').parse(process.argv);

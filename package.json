@@ -1,0 +1,28 @@
+{
+  "name" : "aneth",
+  "version" : "0.0.1",
+  "description" : "Quick and Dirty zeroconf cluster",
+  "keywords": ["cluster", "zeroconf", "hosts"],
+  "author": "Mathieu D'Amours <mathieu@storm.io>",
+  "main": "./lib/index.js",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "bin": {
+    "aneth": "./bin/aneth"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/matehat/aneth.js.git"
+  },
+  "dependencies": {
+    "underscore": ">= 0.0.1",
+    "commander": ">= 0.5.0",
+    "mdns": ">= 1.0.0",
+    "growl": ">= 1.4.0",
+    "coffee-script": ">= 1.1.0"
+  }
+}
