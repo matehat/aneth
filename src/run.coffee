@@ -9,7 +9,7 @@ delimiters =
 class Server
   constructor: (@hostname, @serviceName, @port) ->
     @members = {}
-    console.log @hostname, @serviceName, @port
+    
     @ad = mdns.createAdvertisement mdns.tcp(@serviceName), @port, {name: @hostname}
     @ad.start()
     
@@ -31,29 +31,28 @@ class Server
   
   updateHosts: ->
     file = fs.readFileSync '/etc/hosts', 'ascii'
-    stream = fs.createWriteStream '/etc/hosts', {encoding: 'ascii'}
+    stream = ""
     
-    stream.on 'open', =>
-      prior = file.indexOf delimiters.start
-      if prior isnt -1
-        stream.write file[0...prior], 'ascii'
-      else
-        stream.write file, 'ascii'
-      
-      stream.write delimiters.start, 'ascii'
-      
-      for hostname in _.keys(@members).sort()
-        stream.write "#{@members[hostname]} #{hostname}\n"
-      
-      stream.write delimiters.end, 'ascii'
-      
-      tail = file.indexOf delimiters.end
-      if tail isnt -1
-        tail = tail + delimiters.end.length
-        if tail < (file.length - 1)
-          stream.write file[tail..], 'ascii'
-      
-      stream.end()
+    prior = file.indexOf delimiters.start
+    if prior isnt -1
+      stream += file[0...prior]
+    else
+      stream += file
+    
+    stream += delimiters.start
+    
+    for hostname in _.keys(@members).sort()
+      stream += "#{@members[hostname]} #{hostname}\n" if @members[hostname]?
+    
+    stream += delimiters.end
+    
+    tail = file.indexOf delimiters.end
+    if tail isnt -1
+      tail = tail + delimiters.end.length
+      if tail < (file.length - 1)
+        stream += file[tail..]
+    
+    fs.writeFileSync '/etc/hosts', stream, 'ascii'
     
   
 @Server = Server
