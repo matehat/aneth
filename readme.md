@@ -1,6 +1,6 @@
-A quick and dirty utility that uses zeroconf (Bonjour) to advertise a its host machine 
-on the network and receive such advertisements. It also modifies `/etc/hosts` accordingly,
-so that machines are automatically accessible by the hostname provided from any member running
+A quick and dirty utility that uses Zeroconf to advertize its host machine with a specified hostname
+on the network. It can also listen for these advertisements and manage `/etc/hosts` accordingly,
+so that machines are automatically accessible by their provided hostname from any member running
 that script.
 
 ## Usage
@@ -29,7 +29,7 @@ You will need to install globally if you want the `aneth` executable accessible 
 $ npm install -g aneth
 ```
 
-On Mac, it will just work. On linux machine, you need to install a [Bonjour
+On Mac, it will just work. On a linux machine, you need to install Avahi, a [Bonjour
 compatibility library](https://github.com/agnat/node_mdns#installation).
 
 Enjoy.
