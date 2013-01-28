@@ -10,13 +10,10 @@ class Server
   constructor: (@hostname, @serviceName, watch, @port) ->
     @members = {}
     
-    @ad = mdns.createAdvertisement mdns.tcp(@serviceName), @port, {name: @hostname}
+    @ad = mdns.createAdvertisement mdns.tcp(@serviceName), parseInt(@port), {name: @hostname}
     @ad.start()
     
-    process.on 'SIGINT', =>
-      @members = {}
-      @updateHosts()
-      process.exit()
+    process.on 'SIGINT',  @end
     
     if watch
       @browser = mdns.createBrowser mdns.tcp @serviceName
@@ -36,6 +33,11 @@ class Server
     if name of @members
       delete @members[name]
       @updateHosts()
+  
+  end: =>
+    @members = {}
+    @updateHosts()
+    process.exit()
   
   updateHosts: ->
     file = fs.readFileSync '/etc/hosts', 'ascii'
