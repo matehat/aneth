@@ -1,6 +1,6 @@
 {
   "name" : "aneth",
-  "version" : "0.1.0",
+  "version" : "0.1.1",
   "description" : "Quick and Dirty zeroconf cluster",
   "keywords": ["cluster", "zeroconf", "hosts"],
   "author": "Mathieu D'Amours <mathieu@storm.io>",
