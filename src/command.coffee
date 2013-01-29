@@ -43,7 +43,7 @@ prg
     
     plist = require('plist').build conf
     
-    fs.writeFileSync '/Library/LaunchAgents/org.aneth.boot.plist', plist.toString(), 'utf-8'
-    fs.chownSync '/Library/LaunchAgents/org.aneth.boot.plist', 0, 0
+    fs.writeFileSync '/Library/LaunchDaemons/org.aneth.boot.plist', plist.toString(), 'utf-8'
+    fs.chownSync '/Library/LaunchDaemons/org.aneth.boot.plist', 0, 0
 
 @parse = _.bind prg.parse, prg
