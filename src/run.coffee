@@ -9,10 +9,7 @@ delimiters =
 class Server
   constructor: (@hostname, @serviceName, watch, @port) ->
     @members = {}
-    
-    @ad = mdns.createAdvertisement mdns.tcp(@serviceName), parseInt(@port), {name: @hostname}
-    @ad.start()
-    
+    @createAdvertisement()
     process.on 'SIGINT',  @end
     
     if watch
@@ -20,6 +17,18 @@ class Server
       @browser.on 'serviceUp',    @addService
       @browser.on 'serviceDown',  @removeService
       @browser.start()
+  
+  handleAdError: (error) =>
+    console.error err
+    setTimeout @createAdvertisement, 2000
+  
+  createAdvertisement: =>
+    try
+      @ad = mdns.createAdvertisement mdns.tcp(@serviceName), parseInt(@port), {name: @hostname}
+      @ad.start()
+      @ad.on 'error', @handleAdError  
+    catch err
+      @handleAdError err
   
   addService: ({name, addresses, networkInterface}) =>
     if networkInterface[...2] is 'en' or networkInterface[...3] is 'eth'
