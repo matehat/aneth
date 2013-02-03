@@ -19,7 +19,7 @@ class Server
       @browser.start()
   
   handleAdError: (error) =>
-    console.error err
+    console.error error
     setTimeout @createAdvertisement, 2000
   
   createAdvertisement: =>
