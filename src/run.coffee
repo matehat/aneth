@@ -7,24 +7,38 @@ delimiters =
   end:   '# --- Aneth end\n'
 
 class Server
-  constructor: (@hostname, @serviceName, watch, @port) ->
+  constructor: (@options) ->
     @members = {}
     @createAdvertisement()
+    @createBrowser() if @options.watch
     process.on 'SIGINT',  @end
-    
-    if watch
-      @browser = mdns.createBrowser mdns.tcp @serviceName
-      @browser.on 'serviceUp',    @addService
-      @browser.on 'serviceDown',  @removeService
-      @browser.start()
+  
+  createBrowser: =>
+    {service, interval} = @options
+    @browser = mdns.createBrowser mdns.tcp service
+    @browser.on 'serviceUp',    @addService
+    @browser.on 'serviceDown',  @removeService
+    @browser.on 'error',        @handleBrowserError
+    @browser.start()
+    setTimeout @pauseBrowser, interval
+  
+  pauseBrowser: =>
+    @browser.stop()
+    delete @browser
+    setTimeout @createBrowser, @options.delay
   
   handleAdError: (error) =>
     console.error error
-    setTimeout @createAdvertisement, 2000
+    setTimeout @createAdvertisement, 500
+  
+  handleBrowserError: (error) =>
+    console.error error
+    setTimeout @createBrowser, 500
   
   createAdvertisement: =>
+    {service, port, hostname} = @options
     try
-      @ad = mdns.createAdvertisement mdns.tcp(@serviceName), parseInt(@port), {name: @hostname}
+      @ad = mdns.createAdvertisement mdns.tcp(service), port, {name: hostname}
       @ad.start()
       @ad.on 'error', @handleAdError  
     catch err
@@ -45,6 +59,8 @@ class Server
   
   end: =>
     @members = {}
+    @browser?.stop()
+    @ad?.stop()
     @updateHosts()
     process.exit()
   
