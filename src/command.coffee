@@ -18,7 +18,8 @@ prg
   .command('start [hostname]')
   .description("Start the discovery service.")
   .action (hostname) ->
-    new (require('./run').Server) _.extend {hostname}, _pick prg, 'watch', 'service', 'port', 'interval', 'delay'
+    opts = _.extend {hostname}, _.pick prg, 'watch', 'service', 'port', 'interval', 'delay'
+    new (require('./run').Server) opts
   
 prg
   .command('install [hostname]')
