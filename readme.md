@@ -6,14 +6,20 @@ that script.
 ## Usage
 
 ```bash
-$ aneth start <hostname> [--service <serviceName>] [--watch]
+$ aneth start <hostname> [-s|--service <serviceName>] [-w|--watch] [-p|--port port] [-A|--aliases aliases]
 ```
 
-You can provide a `serviceName` parameter that will be used to listen for advertisements. 
+* You can provide a `serviceName` parameter that will be used to listen for advertisements. 
 Otherwise, `aneth-hosts` will be used.
 
-The `--watch` options tells Aneth to watch for advertised hosts on the network and modify
+* The `--watch` options tells Aneth to watch for advertised hosts on the network and modify
 `/etc/hosts` accordingly (you'll need to execute that with `sudo` for it to work).
+
+* The `--port` options is for specifying the port number to use to advertise the current machine.
+
+* The `--aliases` options is set of local hostname aliases in the form of 
+
+        --aliases from.some.domain:to.other.domain,another.one:to.another.one
 
 ```bash
 $ aneth install <hostname> [--service <serviceName>] [--watch]

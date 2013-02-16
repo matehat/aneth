@@ -11,11 +11,12 @@ class Server
     @members = {}
     @createAdvertisement()
     @createBrowser() if @options.watch
+    @aliases = _.map @options.aliases.split(','), (pair) -> pair.split ':'
     process.on 'SIGINT',  @end
   
   createBrowser: =>
     {service, interval} = @options
-    @browser = mdns.createBrowser mdns.tcp service
+    @browser = mdns.createBrowser mdns.tcp(service)
     @browser.on 'serviceUp',    @addService
     @browser.on 'serviceDown',  @removeService
     @browser.on 'error',        @handleBrowserError
@@ -38,7 +39,8 @@ class Server
   createAdvertisement: =>
     {service, port, hostname} = @options
     try
-      @ad = mdns.createAdvertisement mdns.tcp(service), port, {name: hostname}
+      console.log @options
+      @ad = mdns.createAdvertisement mdns.tcp(service), parseInt(port), {name: hostname}
       @ad.start()
       @ad.on 'error', @handleAdError  
     catch err
@@ -76,8 +78,11 @@ class Server
     
     stream += delimiters.start
     
-    for hostname in _.keys(@members).sort()
-      stream += "#{@members[hostname]} #{hostname}\n" if @members[hostname]?
+    for hostname in _.keys(@members).sort() when (ip = @members[hostname])?
+      stream += "#{ip} #{hostname}\n"
+      console.log hostname, @aliases
+      for [h,a] in @aliases when hostname is h
+        stream += "#{ip} #{a}\n"
     
     stream += delimiters.end
     

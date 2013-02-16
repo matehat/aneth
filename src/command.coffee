@@ -10,16 +10,17 @@ prg
   .version(pkg.version)
   .option('-w, --watch', 'Watch for advertised hosts and apply updates to /etc/hosts (requires sudo)')
   .option('-s, --service <serviceName>', 'Service name to use in advertising', 'org-aneth-hosts')
-  .option('-p, --port <port>', 'Port to use for exchanges', parseInt, 4321)
+  .option('-p, --port <port>', 'Port to use for exchanges', '4321')
   .option('-i, --interval <ms>', 'Interval at which to pause and restart the service browser (when watching)', parseInt, 10*60*1000) # Default is 10 minutes
   .option('-d, --delay <ms>', 'Delay before restarting the service browser (when watching)', parseInt, 50)
+  .option('-A, --aliases <aliases>', 'Local aliases (host:alias[,host2:alias2]) for hosts', '')
 
 prg
   .command('start [hostname]')
   .description("Start the discovery service.")
   .action (hostname) ->
-    opts = _.extend {hostname}, _.pick prg, 'watch', 'service', 'port', 'interval', 'delay'
-    new (require('./run').Server) opts
+    opts = _.extend {hostname}, _.pick prg, 'watch', 'service', 'port', 'interval', 'delay', 'aliases'
+    new (require('..').Server) opts
   
 prg
   .command('install [hostname]')
@@ -28,9 +29,13 @@ prg
     if process.platform is 'darwin'
       args = [hostname]
       args.push '-w' if prg.watch
-      args.push ' -s ' + prg.service
-      args.push ' -p ' + prg.port
-    
+      args.push '-A'
+      args.push prg.aliases
+      args.push '-s'
+      args.push prg.service
+      args.push '-p'
+      args.push '' + prg.port
+      
       conf = 
         KeepAlive: true
         Label: 'org.aneth.boot'
@@ -41,7 +46,9 @@ prg
         RunAtLoad: true
         EnvironmentVariables:
           PATH: '/bin:/usr/bin:/usr/local/bin'
-    
+        StandardOutPath: resolve join __dirname, '../stdout.log'
+        StandardErrorPath: resolve join __dirname, '../stderr.log'
+      
       plist = require('plist').build conf
     
       fs.writeFileSync '/Library/LaunchDaemons/org.aneth.boot.plist', plist.toString(), 'utf-8'
