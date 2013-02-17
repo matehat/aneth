@@ -3,6 +3,14 @@ on the network. It can also listen for these advertisements and manage `/etc/hos
 so that machines are automatically accessible by their provided hostname from any member running
 that script.
 
+## What's the point?
+
+If you're the kind of person that needs to manage multiple machines and VMs in a safe network, you might have come across 
+the annoyance of referring to them on the network (getting their IP address and so on). Wouldn't it be nice if 
+those machines just had simple names like `a.dev.local`, `b.dev.local`, `c.dev.local` and so on. Open a terminal, 
+install **Aneth**, start it and *BOOM*, all the other machines will be able to refer to it using the name you want.
+No playing with DHCP, UNIX hostnames, DNS or what have you. It just works.
+
 ## Usage
 
 ```bash
