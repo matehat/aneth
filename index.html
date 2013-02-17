@@ -16,7 +16,7 @@
     <div class="wrapper">
       <header>
         <h1>Aneth</h1>
-        <p>Quick and Dirty zeroconf cluster</p>
+        <p>Quick and Dirty home cluster using Zeroconf (Bonjour)</p>
 
         <p class="view"><a href="https://github.com/matehat/aneth">View the Project on GitHub <small>matehat/aneth</small></a></p>
 
@@ -32,6 +32,14 @@
 on the network. It can also listen for these advertisements and manage <code>/etc/hosts</code> accordingly,
 so that machines are automatically accessible by their provided hostname from any member running
 that script.</p>
+
+<h2>What's the point?</h2>
+
+<p>If you're the kind of person that needs to manage multiple machines and VMs in a safe network, you might have come across 
+the annoyance of referring to them on the network (getting their IP address and so on). Wouldn't it be nice if 
+those machines just had simple names like <code>a.dev.local</code>, <code>b.dev.local</code>, <code>c.dev.local</code> and so on. Open a terminal, 
+install <strong>Aneth</strong>, start it and <em>BOOM</em>, all the other machines will be able to refer to it using the name you want.
+No playing with DHCP, UNIX hostnames, DNS or what have you. It just works.</p>
 
 <h2>Usage</h2>
 
