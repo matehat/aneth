@@ -39,7 +39,6 @@ class Server
   createAdvertisement: =>
     {service, port, hostname} = @options
     try
-      console.log @options
       @ad = mdns.createAdvertisement mdns.tcp(service), parseInt(port), {name: hostname}
       @ad.start()
       @ad.on 'error', @handleAdError  
