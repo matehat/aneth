@@ -24,6 +24,6 @@
     "mdns": ">= 1.0.0",
     "growl": ">= 1.4.0",
     "coffee-script": ">= 1.1.0",
-    "plist": "https://github.com/matehat/node-plist/archive/master.tar.gz"
+    "plist": "~0.4"
   }
 }
